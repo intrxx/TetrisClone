@@ -31,6 +31,24 @@ bool Grid::IsCellOutOfBounds(int row, int col)
     return false;
 }
 
+ERotationError Grid::IsCellOutOfRotatingBound(int row, int col)
+{
+    if(col < 0)
+    {
+        return ERotationError::RE_LeftSide;
+    }
+    if(col > numberOfColumns - 1)
+    {
+        return ERotationError::RE_RightSide;
+    }
+    if(row > numberOfRows - 1)
+    {
+        return ERotationError::RE_Down;
+    }
+
+    return ERotationError::RE_NoError;
+}
+
 void Grid::Debug_PrintGridNumbers()
 {
     for(auto& row: grid)
@@ -42,3 +60,5 @@ void Grid::Debug_PrintGridNumbers()
         std::cout << std::endl;
     }
 }
+
+

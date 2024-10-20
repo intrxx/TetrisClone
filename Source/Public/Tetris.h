@@ -19,15 +19,16 @@ public:
 
     void GameLoop();
     void HandleInput();
+    void MoveBlockDown();
 
 private:
     void ResetInternalBlocks();
 
     bool IsBlockOutOfBounds(int rowOffset = 0, int colOffset = 0);
+    ERotationError IsRotatingToOutOfBounds();
 
     void MoveBlockLeft();
     void MoveBlockRight();
-    void MoveBlockDown();
 
     void RotateBlock();
 

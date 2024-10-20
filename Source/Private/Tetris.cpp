@@ -1,4 +1,5 @@
 #include <random>
+#include <algorithm>
 
 #include "../Public/Tetris.h"
 
@@ -39,7 +40,10 @@ void Tetris::HandleInput()
         case KEY_S:
             MoveBlockDown();
             break;
-        case KEY_SPACE:
+        case KEY_W:
+            RotateBlock();
+            break;
+        case KEY_UP:
             RotateBlock();
             break;
         default:
@@ -103,12 +107,30 @@ void Tetris::MoveBlockDown()
 
 void Tetris::RotateBlock()
 {
+    const ERotationError rotationError = IsRotatingToOutOfBounds();
+    if((int)rotationError > 0)
+    {
+        if(rotationError == ERotationError::RE_LeftSide)
+        {
+            currBlock.Move(0, 1);
+        }
+        if(rotationError == ERotationError::RE_RightSide)
+        {
+            currBlock.Move(0, -1);
+        }
+        if(rotationError == ERotationError::RE_Down)
+        {
+            currBlock.Move(-1, 0);
+        }
+        RotateBlock();
+        return;
+    }
     currBlock.Rotate();
 }
 
 bool Tetris::IsBlockOutOfBounds(int rowOffset, int colOffset)
 {
-    std::array<SBlockPosition, 4> currPosition = currBlock.CalculateCurrentPosition();
+    const std::array<SBlockPosition, 4> currPosition = currBlock.CalculateCurrentPosition();
 
     for(const SBlockPosition& componentPos : currPosition)
     {
@@ -118,4 +140,22 @@ bool Tetris::IsBlockOutOfBounds(int rowOffset, int colOffset)
         }
     }
     return false;
+}
+
+ERotationError Tetris::IsRotatingToOutOfBounds()
+{
+    Block currBlockCopy = currBlock;
+    currBlockCopy.Rotate();
+
+   const std::array<SBlockPosition, 4> currPosition = currBlockCopy.CalculateCurrentPosition();
+
+   for(const SBlockPosition& componentPos : currPosition)
+   {
+       const ERotationError rotationError = Grid::IsCellOutOfRotatingBound(componentPos.blockRow, componentPos.blockCol);
+       if((int)rotationError > 0)
+       {
+           return rotationError;
+       }
+   }
+    return ERotationError::RE_NoError;
 }

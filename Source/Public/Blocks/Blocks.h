@@ -38,7 +38,7 @@ public:
                 SBlockPosition(2,1)
         };
 
-        Move(0, 3);
+        Move(1, 3);
     };
 };
 
@@ -78,7 +78,7 @@ public:
                 SBlockPosition(2,1)
         };
 
-        Move(0, 3);
+        Move(1, 3);
     };
 };
 
@@ -118,7 +118,7 @@ public:
                 SBlockPosition(3,1)
         };
 
-        Move(-1 ,3);
+        Move(0 ,3);
     };
 };
 
@@ -158,7 +158,7 @@ public:
                 SBlockPosition(1,1)
         };
 
-        Move(0, 4);
+        Move(1, 4);
     };
 };
 
@@ -198,7 +198,7 @@ public:
                 SBlockPosition(2,1)
         };
 
-        Move(0, 3);
+        Move(1, 3);
     };
 };
 
@@ -238,7 +238,7 @@ public:
                 SBlockPosition(2,1)
         };
 
-        Move(0, 3);
+        Move(1, 3);
     };
 };
 
@@ -278,6 +278,6 @@ public:
                 SBlockPosition(2,0)
         };
 
-        Move(0, 3);
+        Move(1, 3);
     };
 };

@@ -13,6 +13,7 @@ public:
 
     void Debug_PrintGridNumbers();
     static bool IsCellOutOfBounds(int row, int col);
+    static ERotationError IsCellOutOfRotatingBound(int row, int col);
 
 public:
     int grid[20][10] = {0};

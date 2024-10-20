@@ -33,3 +33,11 @@ namespace tetrisStatics
     static constexpr int cellMargin = 1;
     static constexpr int cellSize = 30;
 };
+
+enum class ERotationError
+{
+    RE_NoError = 0,
+    RE_LeftSide = 1,
+    RE_RightSide = 2,
+    RE_Down = 3
+};

@@ -3,11 +3,6 @@
 
 #include "raylib.h"
 
-Block::Block()
-{
-
-}
-
 void Block::Draw()
 {
     const int margin = tetrisStatics::cellMargin;
@@ -15,7 +10,7 @@ void Block::Draw()
     const Color blockColor = tetrisStatics::tetrisColors[id];
 
     std::array<SBlockPosition, 4> currentPos = CalculateCurrentPosition();
-    for(SBlockPosition position : currentPos)
+    for(const SBlockPosition& position : currentPos)
     {
         DrawRectangle(position.blockCol * cellSize + margin, position.blockRow * cellSize + margin,
                       cellSize - margin, cellSize - margin, blockColor);
@@ -40,7 +35,7 @@ std::array<SBlockPosition, 4> Block::CalculateCurrentPosition()
     std::array<SBlockPosition, 4> movedPos;
 
     int i = 0;
-    for(SBlockPosition position : initialPos)
+    for(const SBlockPosition& position : initialPos)
     {
         SBlockPosition newPos = {position.blockRow + currRowOffset, position.blockCol + currColOffset};
         movedPos[i] = newPos;

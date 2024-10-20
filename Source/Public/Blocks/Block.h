@@ -18,7 +18,7 @@ struct SBlockPosition
 class Block
 {
 public:
-    Block();
+    Block() = default;
 
     int GetBlockId() const
     {
