@@ -49,13 +49,45 @@ cmake_ninja_workdir = D$:/TetrisClone/cmake-build-debug/
 
 build cmake_object_order_depends_target_TetrisClone: phony || cmake_object_order_depends_target_glfw cmake_object_order_depends_target_raylib
 
-build CMakeFiles/TetrisClone.dir/main.cpp.obj: CXX_COMPILER__TetrisClone_unscanned_Debug D$:/TetrisClone/main.cpp || cmake_object_order_depends_target_TetrisClone
+build CMakeFiles/TetrisClone.dir/Source/main.cpp.obj: CXX_COMPILER__TetrisClone_unscanned_Debug D$:/TetrisClone/Source/main.cpp || cmake_object_order_depends_target_TetrisClone
   DEFINES = -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP
-  DEP_FILE = CMakeFiles\TetrisClone.dir\main.cpp.obj.d
+  DEP_FILE = CMakeFiles\TetrisClone.dir\Source\main.cpp.obj.d
   FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
   INCLUDES = -ID:/TetrisClone/cmake-build-debug/_deps/raylib-src/src -ID:/TetrisClone/cmake-build-debug/_deps/raylib-src/src/external/glfw/include
   OBJECT_DIR = CMakeFiles\TetrisClone.dir
-  OBJECT_FILE_DIR = CMakeFiles\TetrisClone.dir
+  OBJECT_FILE_DIR = CMakeFiles\TetrisClone.dir\Source
+
+build CMakeFiles/TetrisClone.dir/Source/Private/Grid.cpp.obj: CXX_COMPILER__TetrisClone_unscanned_Debug D$:/TetrisClone/Source/Private/Grid.cpp || cmake_object_order_depends_target_TetrisClone
+  DEFINES = -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP
+  DEP_FILE = CMakeFiles\TetrisClone.dir\Source\Private\Grid.cpp.obj.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  INCLUDES = -ID:/TetrisClone/cmake-build-debug/_deps/raylib-src/src -ID:/TetrisClone/cmake-build-debug/_deps/raylib-src/src/external/glfw/include
+  OBJECT_DIR = CMakeFiles\TetrisClone.dir
+  OBJECT_FILE_DIR = CMakeFiles\TetrisClone.dir\Source\Private
+
+build CMakeFiles/TetrisClone.dir/Source/Private/Blocks/Block.cpp.obj: CXX_COMPILER__TetrisClone_unscanned_Debug D$:/TetrisClone/Source/Private/Blocks/Block.cpp || cmake_object_order_depends_target_TetrisClone
+  DEFINES = -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP
+  DEP_FILE = CMakeFiles\TetrisClone.dir\Source\Private\Blocks\Block.cpp.obj.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  INCLUDES = -ID:/TetrisClone/cmake-build-debug/_deps/raylib-src/src -ID:/TetrisClone/cmake-build-debug/_deps/raylib-src/src/external/glfw/include
+  OBJECT_DIR = CMakeFiles\TetrisClone.dir
+  OBJECT_FILE_DIR = CMakeFiles\TetrisClone.dir\Source\Private\Blocks
+
+build CMakeFiles/TetrisClone.dir/Source/Private/Blocks/Blocks.cpp.obj: CXX_COMPILER__TetrisClone_unscanned_Debug D$:/TetrisClone/Source/Private/Blocks/Blocks.cpp || cmake_object_order_depends_target_TetrisClone
+  DEFINES = -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP
+  DEP_FILE = CMakeFiles\TetrisClone.dir\Source\Private\Blocks\Blocks.cpp.obj.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  INCLUDES = -ID:/TetrisClone/cmake-build-debug/_deps/raylib-src/src -ID:/TetrisClone/cmake-build-debug/_deps/raylib-src/src/external/glfw/include
+  OBJECT_DIR = CMakeFiles\TetrisClone.dir
+  OBJECT_FILE_DIR = CMakeFiles\TetrisClone.dir\Source\Private\Blocks
+
+build CMakeFiles/TetrisClone.dir/Source/Private/Tetris.cpp.obj: CXX_COMPILER__TetrisClone_unscanned_Debug D$:/TetrisClone/Source/Private/Tetris.cpp || cmake_object_order_depends_target_TetrisClone
+  DEFINES = -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP
+  DEP_FILE = CMakeFiles\TetrisClone.dir\Source\Private\Tetris.cpp.obj.d
+  FLAGS = -g -std=gnu++23 -fdiagnostics-color=always
+  INCLUDES = -ID:/TetrisClone/cmake-build-debug/_deps/raylib-src/src -ID:/TetrisClone/cmake-build-debug/_deps/raylib-src/src/external/glfw/include
+  OBJECT_DIR = CMakeFiles\TetrisClone.dir
+  OBJECT_FILE_DIR = CMakeFiles\TetrisClone.dir\Source\Private
 
 
 # =============================================================================
@@ -65,7 +97,7 @@ build CMakeFiles/TetrisClone.dir/main.cpp.obj: CXX_COMPILER__TetrisClone_unscann
 #############################################
 # Link the executable TetrisClone.exe
 
-build TetrisClone.exe: CXX_EXECUTABLE_LINKER__TetrisClone_Debug CMakeFiles/TetrisClone.dir/main.cpp.obj | _deps/raylib-build/raylib/libraylib.a _deps/raylib-build/raylib/external/glfw/src/libglfw3.a || _deps/raylib-build/raylib/external/glfw/src/libglfw3.a _deps/raylib-build/raylib/libraylib.a
+build TetrisClone.exe: CXX_EXECUTABLE_LINKER__TetrisClone_Debug CMakeFiles/TetrisClone.dir/Source/main.cpp.obj CMakeFiles/TetrisClone.dir/Source/Private/Grid.cpp.obj CMakeFiles/TetrisClone.dir/Source/Private/Blocks/Block.cpp.obj CMakeFiles/TetrisClone.dir/Source/Private/Blocks/Blocks.cpp.obj CMakeFiles/TetrisClone.dir/Source/Private/Tetris.cpp.obj | _deps/raylib-build/raylib/libraylib.a _deps/raylib-build/raylib/external/glfw/src/libglfw3.a || _deps/raylib-build/raylib/external/glfw/src/libglfw3.a _deps/raylib-build/raylib/libraylib.a
   FLAGS = -g
   LINK_LIBRARIES = _deps/raylib-build/raylib/libraylib.a  -lopengl32  -lglu32  -lwinmm  _deps/raylib-build/raylib/external/glfw/src/libglfw3.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\TetrisClone.dir

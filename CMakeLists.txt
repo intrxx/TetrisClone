@@ -17,7 +17,17 @@ FetchContent_MakeAvailable(raylib)
 
 # Our Project
 set(SOURCE_FILES
-        Main.cpp)
+        Source/main.cpp
+        Source/Public/Grid.h
+        Source/Private/Grid.cpp
+        Source/Public/Blocks/Block.h
+        Source/Public/TetrisTypes.h
+        Source/Private/Blocks/Block.cpp
+        Source/Public/Blocks/Blocks.h
+        Source/Private/Blocks/Blocks.cpp
+        Source/Public/Tetris.h
+        Source/Private/Tetris.cpp
+)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries(${PROJECT_NAME} raylib)
