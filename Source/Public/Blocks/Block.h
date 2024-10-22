@@ -2,6 +2,7 @@
 
 #include <map>
 #include <array>
+#include <vector>
 
 struct SBlockPosition
 {
@@ -29,14 +30,22 @@ public:
     void Move(int byRows, int byCol);
     void Move(SBlockPosition byPos);
     void Rotate();
+    void DoCorrections();
 
     std::array<SBlockPosition, 4> CalculateCurrentPosition();
 
 public:
     std::map<int, std::array<SBlockPosition, 4>> rotationStatesMap;
 
+
+    bool bTriedCorrecting = false;
+
+    int currentSimpleCorrections = 0;
+    int maxPossibleCorrections = 1;
+    std::vector<SBlockPosition> cachedSimpleCorrections;
+
 protected:
-    int id;
+    int id = 0;
 
 private:
     int rotationState = 0;

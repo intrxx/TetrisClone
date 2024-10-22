@@ -1,7 +1,7 @@
+#include <raylib.h>
+
 #include "../../Public/Blocks/Block.h"
 #include "../../Public/TetrisTypes.h"
-
-#include "raylib.h"
 
 void Block::Draw()
 {
@@ -53,5 +53,14 @@ void Block::Rotate()
         return;
     }
     rotationState++;
+}
+
+void Block::DoCorrections()
+{
+    for(auto & cachedSimpleCorrection : cachedSimpleCorrections)
+    {
+        Move(cachedSimpleCorrection.blockRow, cachedSimpleCorrection.blockCol);
+    }
+    currentSimpleCorrections = 0;
 }
 

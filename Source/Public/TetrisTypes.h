@@ -1,7 +1,7 @@
 #pragma once
 
-#include <raylib.h>
 #include <array>
+#include <raylib.h>
 
 #include "Blocks/Blocks.h"
 
@@ -39,5 +39,6 @@ enum class ERotationError
     RE_NoError = 0,
     RE_LeftSide = 1,
     RE_RightSide = 2,
-    RE_Down = 3
+    RE_Down = 3,
+    RE_CellTaken
 };

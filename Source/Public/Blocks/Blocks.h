@@ -88,6 +88,7 @@ public:
     IBlock()
     {
         id = 3;
+        maxPossibleCorrections = 2;
 
         rotationStatesMap[0] =
         {

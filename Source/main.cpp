@@ -14,7 +14,7 @@ bool EventTriggered(double interval)
 }
 
 int main() {
-    const int screenWidth = 400;
+    const int screenWidth = 500;
     const int screenHeight = 700;
     const char *windowTitle = "Tetris Clone";
 
@@ -30,7 +30,7 @@ int main() {
     while(!WindowShouldClose()) {
         tetris.HandleInput();
 
-        if(EventTriggered(0.18))
+        if(EventTriggered(0.2))
         {
             tetris.MoveBlockDown();
         }

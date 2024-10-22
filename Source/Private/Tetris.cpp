@@ -1,10 +1,13 @@
 #include <random>
 #include <algorithm>
+#include <iostream>
+#include <utility>
 
 #include "../Public/Tetris.h"
 
 Tetris::Tetris()
 {
+    internalBlocks.reserve(7);
     ResetInternalBlocks();
 
     currBlock = GetRandomBlock();
@@ -20,6 +23,13 @@ void Tetris::GameLoop()
 void Tetris::HandleInput()
 {
     int keyPressed = GetKeyPressed();
+
+    if(bGameOver && keyPressed == KEY_R)
+    {
+        bGameOver = false;
+        ResetGame();
+    }
+
     switch(keyPressed)
     {
         case KEY_LEFT:
@@ -59,11 +69,13 @@ Block Tetris::GetRandomBlock()
     }
 
     std::random_device rd;
-    std::mt19937 mt(rd());
-    std::uniform_int_distribution<int> dist(0, (int)internalBlocks.size() - 1);
+    std::mt19937 rng(rd());
+    std::uniform_int_distribution<std::mt19937::result_type> distBlockSize(0, (int)internalBlocks.size() - 1);
 
-    Block block = internalBlocks[dist(mt)];
-    internalBlocks.erase(internalBlocks.begin() + dist(mt));
+    unsigned int randomNum = distBlockSize(rng);
+
+    Block block = internalBlocks[randomNum];
+    internalBlocks.erase(internalBlocks.begin() + randomNum);
 
     return block;
 }
@@ -80,57 +92,59 @@ void Tetris::ResetInternalBlocks()
 
 void Tetris::MoveBlockLeft()
 {
-    if(IsBlockOutOfBounds(0, -1))
+    if(CanMoveLeft(currBlock))
     {
-        return;
+        currBlock.Move(0, -1);
     }
-    currBlock.Move(0, -1);
 }
 
 void Tetris::MoveBlockRight()
 {
-    if(IsBlockOutOfBounds(0, 1))
+    if(CanMoveRight(currBlock))
     {
-        return;
+        currBlock.Move(0, 1);
     }
-    currBlock.Move(0, 1);
 }
 
 void Tetris::MoveBlockDown()
 {
-    if(IsBlockOutOfBounds(1, 0))
+    if(CanMoveDown(currBlock))
     {
+        currBlock.Move(1, 0);
         return;
     }
-    currBlock.Move(1, 0);
+    LockBlock();
 }
 
 void Tetris::RotateBlock()
 {
-    const ERotationError rotationError = IsRotatingToOutOfBounds();
-    if((int)rotationError > 0)
+    Block copyCurr = currBlock;
+
+    const bool bCanRotate = CanRotate(currBlock);
+
+    if(!bCanRotate)
     {
-        if(rotationError == ERotationError::RE_LeftSide)
+        //TODO Make corrections
+
+        for(int i = 0; i < copyCurr.maxPossibleCorrections; i++)
         {
-            currBlock.Move(0, 1);
+            //if(MoveBlockRight(copyCurr) && CanRotate(copyCurr))
+            //{
+            //}
         }
-        if(rotationError == ERotationError::RE_RightSide)
-        {
-            currBlock.Move(0, -1);
-        }
-        if(rotationError == ERotationError::RE_Down)
-        {
-            currBlock.Move(-1, 0);
-        }
-        RotateBlock();
+        // Try Moving right
+        // Try Moving left
+        // Try Moving Down
+
         return;
     }
+
     currBlock.Rotate();
 }
 
-bool Tetris::IsBlockOutOfBounds(int rowOffset, int colOffset)
+bool Tetris::IsBlockOutOfBounds(Block blockToCheck, int rowOffset, int colOffset)
 {
-    const std::array<SBlockPosition, 4> currPosition = currBlock.CalculateCurrentPosition();
+    const std::array<SBlockPosition, 4> currPosition = blockToCheck.CalculateCurrentPosition();
 
     for(const SBlockPosition& componentPos : currPosition)
     {
@@ -142,20 +156,106 @@ bool Tetris::IsBlockOutOfBounds(int rowOffset, int colOffset)
     return false;
 }
 
-ERotationError Tetris::IsRotatingToOutOfBounds()
+bool Tetris::CanRotate(Block blockToCheck)
 {
-    Block currBlockCopy = currBlock;
+    Block currBlockCopy = std::move(blockToCheck);
     currBlockCopy.Rotate();
 
    const std::array<SBlockPosition, 4> currPosition = currBlockCopy.CalculateCurrentPosition();
 
    for(const SBlockPosition& componentPos : currPosition)
    {
-       const ERotationError rotationError = Grid::IsCellOutOfRotatingBound(componentPos.blockRow, componentPos.blockCol);
-       if((int)rotationError > 0)
+       if(Grid::IsCellOutOfBounds(componentPos.blockRow, componentPos.blockCol) || !grid.IsCellEmpty(componentPos.blockRow, componentPos.blockCol))
        {
-           return rotationError;
+           return false;
        }
    }
-    return ERotationError::RE_NoError;
+    return true;
+}
+
+void Tetris::LockBlock()
+{
+    const std::array<SBlockPosition, 4> currPosition = currBlock.CalculateCurrentPosition();
+    for(const SBlockPosition& componentPos : currPosition)
+    {
+        grid.gridArr[componentPos.blockRow][componentPos.blockCol] = currBlock.GetBlockId();
+    }
+
+    SpawnNewBlock();
+    HandleFullRows();
+}
+
+void Tetris::SpawnNewBlock()
+{
+    if(!IsThereSpaceForBlock(nextBlock))
+    {
+        if(!bGameOver)
+        {
+            SpawnDummyBlock();
+        }
+        bGameOver = true;
+        return;
+    }
+    currBlock = nextBlock;
+    nextBlock = GetRandomBlock();
+}
+
+bool Tetris::IsThereSpaceForBlock(Block blockToCheck, int rowOffset, int colOffset)
+{
+    const std::array<SBlockPosition, 4> currPosition = blockToCheck.CalculateCurrentPosition();
+    for(const SBlockPosition& componentPos : currPosition)
+    {
+        if(!grid.IsCellEmpty(componentPos.blockRow + rowOffset, componentPos.blockCol + colOffset))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Tetris::CanMoveRight(const Block& blockToMove)
+{
+    if(IsBlockOutOfBounds(blockToMove, 0, 1) || !IsThereSpaceForBlock(blockToMove, 0, 1) || bGameOver)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool Tetris::CanMoveLeft(const Block& blockToMove)
+{
+    if(IsBlockOutOfBounds(blockToMove, 0, -1) || !IsThereSpaceForBlock(blockToMove, 0, -1) || bGameOver)
+    {
+        return false;
+    }
+    return true;
+}
+
+bool Tetris::CanMoveDown(const Block& blockToMove)
+{
+    if(IsBlockOutOfBounds(blockToMove, 1, 0) || !IsThereSpaceForBlock(blockToMove, 1, 0) || bGameOver)
+    {
+        return false;
+    }
+    return true;
+}
+
+void Tetris::HandleFullRows()
+{
+    int score = grid.ClearFullRows();
+}
+
+void Tetris::SpawnDummyBlock()
+{
+    nextBlock.Draw();
+    nextBlock.Move(-1, 0);
+}
+
+void Tetris::ResetGame()
+{
+    grid.ClearEntireGrid();
+
+    ResetInternalBlocks();
+    currBlock = GetRandomBlock();
+    nextBlock = GetRandomBlock();
 }

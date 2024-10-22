@@ -21,21 +21,37 @@ public:
     void HandleInput();
     void MoveBlockDown();
 
+    void HandleFullRows();
+
+public:
+    bool bGameOver = false;
+
 private:
     void ResetInternalBlocks();
 
-    bool IsBlockOutOfBounds(int rowOffset = 0, int colOffset = 0);
-    ERotationError IsRotatingToOutOfBounds();
+    bool IsBlockOutOfBounds(Block blockToCheck, int rowOffset = 0, int colOffset = 0);
+    bool CanRotate(Block blockToCheck);
+    bool IsThereSpaceForBlock(Block blockToCheck, int rowOffset = 0, int colOffset = 0);
 
     void MoveBlockLeft();
     void MoveBlockRight();
-
     void RotateBlock();
+    void LockBlock();
+
+    void SpawnNewBlock();
+    void SpawnDummyBlock();
+
+    void ResetGame();
+
+    bool CanMoveRight(const Block& blockToMove);
+    bool CanMoveLeft(const Block& blockToMove);
+    bool CanMoveDown(const Block& blockToMove);
 
 private:
     Grid grid = Grid();
-    Block currBlock;
+
     Block nextBlock;
+    Block currBlock;
 
     std::vector<Block> internalBlocks;
 };
