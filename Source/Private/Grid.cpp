@@ -4,16 +4,18 @@
 
 void Grid::Draw()
 {
-   const int margin = tetrisStatics::cellMargin;
+   const int cellMargin = tetrisStatics::cellMargin;
+   const int gridMargin = tetrisStatics::gridMargin;
    const int cellSize = tetrisStatics::cellSize;
+   const std::array<Color, 8> tetrisColors = tetrisStatics::tetrisColors;
 
     for(int row = 0; row < numberOfRows; row++)
     {
         for(int col = 0; col < numberOfColumns; col++)
         {
            int cellValue = gridArr[row][col];
-           DrawRectangle(col * cellSize + margin, row * cellSize + margin, cellSize - margin,
-                         cellSize - margin, tetrisStatics::tetrisColors[cellValue]);
+           DrawRectangle(col * cellSize + gridMargin, row * cellSize + gridMargin, cellSize - cellMargin,
+                         cellSize - cellMargin, tetrisColors[cellValue]);
         }
     }
 }
@@ -71,15 +73,17 @@ void Grid::Debug_PrintGridNumbers()
     }
 }
 
-int Grid::ClearFullRows()
+SScoreStats Grid::ClearFullRows()
 {
     int completed = 0;
+    int lastCompletedRow = 0;
 
     for(int row = numberOfRows - 1; row >= 0; row--)
     {
         if(IsRowFull(row))
         {
             completed++;
+            lastCompletedRow = row;
             ClearRow(row);
         }
         else if(completed > 0)
@@ -88,7 +92,7 @@ int Grid::ClearFullRows()
         }
     }
 
-    return completed;
+    return {completed, lastCompletedRow - completed - 1, 0};
 }
 
 bool Grid::IsRowFull(int row)

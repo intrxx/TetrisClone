@@ -3,17 +3,18 @@
 #include "../../Public/Blocks/Block.h"
 #include "../../Public/TetrisTypes.h"
 
-void Block::Draw()
+void Block::Draw(int offsetX, int offsetY)
 {
-    const int margin = tetrisStatics::cellMargin;
+    const int cellMargin = tetrisStatics::cellMargin;
+    const int gridMargin = tetrisStatics::gridMargin;
     const int cellSize = tetrisStatics::cellSize;
     const Color blockColor = tetrisStatics::tetrisColors[id];
 
     std::array<SBlockPosition, 4> currentPos = CalculateCurrentPosition();
     for(const SBlockPosition& position : currentPos)
     {
-        DrawRectangle(position.blockCol * cellSize + margin, position.blockRow * cellSize + margin,
-                      cellSize - margin, cellSize - margin, blockColor);
+        DrawRectangle(position.blockCol * cellSize + gridMargin + offsetX, position.blockRow * cellSize + gridMargin + offsetY,
+                      cellSize - cellMargin, cellSize - cellMargin, blockColor);
     }
 }
 

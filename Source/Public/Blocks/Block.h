@@ -26,7 +26,7 @@ public:
         return id;
     }
 
-    void Draw();
+    void Draw(int offsetX = 0, int offsetY = 0);
     void Move(int byRows, int byCol);
     void Move(SBlockPosition byPos);
     void Rotate();

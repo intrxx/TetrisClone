@@ -9,13 +9,12 @@ class Tetris
 {
 public:
     Tetris();
+    ~Tetris();
 
     Grid GetGrid() const
     {
         return grid;
     }
-
-    Block GetRandomBlock();
 
     void GameLoop();
     void HandleInput();
@@ -25,6 +24,12 @@ public:
 
 public:
     bool bGameOver = false;
+
+    Font fontinRegular = Font();
+    Font fontinSmallCaps = Font();
+    Font fontinBold = Font();
+
+    Music backgroundMusic;
 
 private:
     void ResetInternalBlocks();
@@ -37,6 +42,7 @@ private:
     void MoveBlockRight();
     void RotateBlock();
     void LockBlock();
+    void InstantPlacement();
 
     void SpawnNewBlock();
     void SpawnDummyBlock();
@@ -47,11 +53,20 @@ private:
     bool CanMoveLeft(const Block& blockToMove);
     bool CanMoveDown(const Block& blockToMove);
 
+    void UpdateScore(const SScoreStats& scoreStats);
+
+    Block GetRandomBlock();
+
 private:
     Grid grid = Grid();
+
+    int score = 0;
 
     Block nextBlock;
     Block currBlock;
 
     std::vector<Block> internalBlocks;
+
+    Sound rotateSound;
+    Sound clearSound;
 };

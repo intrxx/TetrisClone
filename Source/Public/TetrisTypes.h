@@ -16,6 +16,9 @@ namespace tetrisStatics
     static constexpr Color cyan = {21, 204, 209, 255};
     static constexpr Color blue = {13, 64, 216, 255};
 
+    static constexpr Color lightGrey = {64, 64, 64, 255};
+    static constexpr Color lightBlue = {60, 82, 161, 255};
+
     /**
      * 0 = darkGrey,
      * 1 = green,
@@ -30,6 +33,7 @@ namespace tetrisStatics
 
     static std::array<Block, 7> tetrisBlocks = {LBlock(), JBlock(), IBlock(), OBlock(), SBlock(), TBlock(), ZBlock()};
 
+    static constexpr int gridMargin = 11;
     static constexpr int cellMargin = 1;
     static constexpr int cellSize = 30;
 };
@@ -41,4 +45,11 @@ enum class ERotationError
     RE_RightSide = 2,
     RE_Down = 3,
     RE_CellTaken
+};
+
+struct SScoreStats
+{
+    int numberOfRowsCleared = 0;
+    int clearedRowNumber = 0;
+    int numberOfBlocksCleared = 0;
 };

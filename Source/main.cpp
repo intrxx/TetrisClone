@@ -18,8 +18,6 @@ int main() {
     const int screenHeight = 700;
     const char *windowTitle = "Tetris Clone";
 
-    const Color darkGrey = {64, 64, 64, 255};
-
     InitWindow(screenWidth, screenHeight, windowTitle);
 
     SetTargetFPS(60);
@@ -28,6 +26,7 @@ int main() {
 
     // Main loop
     while(!WindowShouldClose()) {
+        UpdateMusicStream(tetris.backgroundMusic);
         tetris.HandleInput();
 
         if(EventTriggered(0.2))
@@ -36,7 +35,7 @@ int main() {
         }
 
         BeginDrawing();
-        ClearBackground(darkGrey);
+        ClearBackground(tetrisStatics::lightGrey);
 
         tetris.GameLoop();
 

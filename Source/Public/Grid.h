@@ -17,7 +17,7 @@ public:
     bool IsCellEmpty(int row, int col);
     ERotationError IsCellOutOfRotatingBound(int row, int col);
 
-    int ClearFullRows();
+    SScoreStats ClearFullRows();
     void ClearEntireGrid();
 
 public:
@@ -27,8 +27,6 @@ private:
     bool IsRowFull(int row);
     void ClearRow(int row);
     void MoveRowDownByNumber(int row, int numRows);
-
-
 
 private:
     static constexpr int numberOfRows = 20;
